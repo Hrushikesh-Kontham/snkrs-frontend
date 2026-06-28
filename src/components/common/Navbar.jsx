@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
@@ -7,8 +7,13 @@ const Navbar = () => {
     const { user, logout } = useAuth();
     const { cartCount } = useCart();
     const navigate = useNavigate();
+    const location = useLocation();
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false);
+
+    const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
+    if (isAuthPage) return null;
 
     const handleLogout = () => {
         logout();
