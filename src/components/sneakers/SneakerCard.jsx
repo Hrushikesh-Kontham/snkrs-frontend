@@ -1,14 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
 const SneakerCard = ({ sneaker }) => {
     const { addItem } = useCart();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const handleAddToCart = async (e) => {
         e.preventDefault();
-        if (!user) return;
+        if (!user){
+            navigate(`/sneakers/${sneaker.id}`);
+            return;
+        }
         await addItem(sneaker.id, 1);
     };
 
@@ -49,7 +53,7 @@ const SneakerCard = ({ sneaker }) => {
                         <span className="text-lg font-bold text-gray-900">
                             ₹{sneaker.price.toLocaleString('en-IN')}
                         </span>
-                        {user && sneaker.stock > 0 && (
+                        {sneaker.stock > 0 && (
                             <button
                                 onClick={handleAddToCart}
                                 className="bg-black text-white text-xs px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors font-medium tracking-wide">
