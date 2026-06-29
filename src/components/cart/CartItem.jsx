@@ -1,7 +1,22 @@
 import { useCart } from '../../context/CartContext';
+import { addToCart } from '../../api/cartApi';
 
 const CartItem = ({ item }) => {
-    const { removeItem } = useCart();
+    const { removeItem, fetchCart } = useCart();
+
+    const handleIncrease = async () => {
+        await addToCart({ sneakerId: item.sneaker.id, quantity: 1 });
+        fetchCart();
+    };
+
+    const handleDecrease = async () => {
+        if (item.quantity === 1) {
+            await removeItem(item.sneaker.id);
+        } else {
+            await addToCart({ sneakerId: item.sneaker.id, quantity: -1 });
+            fetchCart();
+        }
+    };
 
     return (
         <div className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
@@ -11,7 +26,7 @@ const CartItem = ({ item }) => {
                     src={item.sneaker.imageUrl}
                     alt={item.sneaker.name}
                     className="w-full h-full object-contain p-2"
-                    onError={(e) => e.target.src = 'https://placehold.co'}
+                    onError={(e) => e.target.src = 'https://placehold.co/100?text=No+Image'}
                 />
             </div>
 
@@ -23,12 +38,26 @@ const CartItem = ({ item }) => {
                 <h3 className="font-semibold text-gray-900 text-sm mt-0.5 truncate">
                     {item.sneaker.name}
                 </h3>
-                <p className="text-xs text-gray-400 mt-1">
-                    Qty: <span className="font-medium text-gray-700">{item.quantity}</span>
-                </p>
                 <p className="text-sm font-bold text-gray-900 mt-1">
                     ₹{(item.sneaker.price * item.quantity).toLocaleString('en-IN')}
                 </p>
+
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-3 mt-2">
+                    <button
+                        onClick={handleDecrease}
+                        className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:border-black hover:text-black transition-colors font-bold text-lg">
+                        −
+                    </button>
+                    <span className="text-sm font-semibold text-gray-900 w-4 text-center">
+                        {item.quantity}
+                    </span>
+                    <button
+                        onClick={handleIncrease}
+                        className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:border-black hover:text-black transition-colors font-bold text-lg">
+                        +
+                    </button>
+                </div>
             </div>
 
             {/* Remove */}
