@@ -16,6 +16,7 @@ import OrderDetail from './pages/OrderDetail';
 import Wishlist from './pages/Wishlist';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
+import AdminOrders from './pages/admin/AdminOrders';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -44,6 +45,7 @@ const App = () => {
                     <Route path="/orders/:id" element={<OrderDetail />} />
                     <Route path="/wishlist" element={<Wishlist />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/admin/orders" element={<AdminOrders />} />
                 </Route>
 
                 {/* Protected - Admin */}
