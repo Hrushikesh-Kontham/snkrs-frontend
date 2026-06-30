@@ -110,9 +110,9 @@ const Navbar = () => {
                             </Link>
 
                             {/* User Initial */}
-                            <div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center text-xs font-black flex-shrink-0">
-                                {user.name?.charAt(0).toUpperCase()}
-                            </div>
+                            <Link to="/profile" className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center text-xs font-black flex-shrink-0">
+                            {user.name?.charAt(0).toUpperCase()}
+                            </Link>
 
                             {/* Logout */}
                             <button
