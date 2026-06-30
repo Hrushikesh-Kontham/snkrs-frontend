@@ -14,6 +14,7 @@ import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
 import Wishlist from './pages/Wishlist';
+import NotFound from './pages/NotFound';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -49,6 +50,7 @@ const App = () => {
                     <Route path="/admin/sneakers/add" element={<AddSneaker />} />
                     <Route path="/admin/sneakers/edit/:id" element={<EditSneaker />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
             </main>
             <Footer/>

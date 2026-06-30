@@ -93,14 +93,14 @@ const OrderDetail = () => {
                             <div key={item.id} className="flex items-center gap-4">
                                 <div className="w-16 h-16 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0">
                                     <img
-                                        src={item.sneaker.imageUrl}
-                                        alt={item.sneaker.name}
+                                        src={item.sneaker?.imageUrl || 'https://placehold.co/100?text=No+Image'}
+                                        alt={item.sneaker?.name || 'Sneaker'}
                                         className="w-full h-full object-contain p-2"
-                                        onError={(e) => e.target.src = 'https://placehold.co'}
+                                        onError={(e) => e.target.src = 'https://placehold.co/100?text=No+Image'}
                                     />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-semibold text-gray-900 text-sm">{item.sneaker.name}</p>
+                                    <p className="font-semibold text-gray-900 text-sm">{item.sneaker?.name || 'Sneaker unavailable'}</p>
                                     <p className="text-xs text-gray-400 mt-0.5">Qty: {item.quantity}</p>
                                 </div>
                                 <p className="font-bold text-gray-900">
