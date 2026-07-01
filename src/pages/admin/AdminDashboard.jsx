@@ -108,8 +108,8 @@ const AdminDashboard = () => {
                                         <td className="px-6 py-4 text-sm font-semibold text-gray-900">
                                             ₹{sneaker.price.toLocaleString('en-IN')}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <span className={`text-xs font-semibold px-2 py-1 rounded-full
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap
                                                 ${sneaker.stock > 0
                                                     ? 'bg-green-50 text-green-600'
                                                     : 'bg-red-50 text-red-500'}`}>

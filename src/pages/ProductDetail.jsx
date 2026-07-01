@@ -11,6 +11,7 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true);
     const [addedToCart, setAddedToCart] = useState(false);
     const [wishlistMsg, setWishlistMsg] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
     const { addItem } = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const ProductDetail = () => {
             try {
                 const res = await getSneakerById(id);
                 setSneaker(res.data);
+                setSelectedImage(res.data.imageUrl);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -59,18 +61,47 @@ const ProductDetail = () => {
         </div>
     );
 
+    // Build all images — primary + additional
+    const allImages = [
+        sneaker.imageUrl,
+        ...(sneaker.images?.map(img => img.imageUrl) || [])
+    ].filter(Boolean);
+
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="max-w-6xl mx-auto px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    {/* Image */}
-                    <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex items-center justify-center">
-                        <img
-                            src={sneaker.imageUrl}
-                            alt={sneaker.name}
-                            className="w-full max-h-96 object-contain"
-                            onError={(e) => e.target.src = 'https://placehold.co/400?text=No+Image'}
-                        />
+                    {/* Image Gallery */}
+                    <div className="space-y-4">
+                        {/* Main Image */}
+                        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex items-center justify-center h-96">
+                            <img
+                                src={selectedImage || sneaker.imageUrl}
+                                alt={sneaker.name}
+                                className="w-full h-full object-contain"
+                                onError={(e) => e.target.src = 'https://placehold.co/400?text=No+Image'}
+                            />
+                        </div>
+
+                        {/* Thumbnails */}
+                        {allImages.length > 1 && (
+                            <div className="flex gap-3 overflow-x-auto pb-1">
+                                {allImages.map((url, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setSelectedImage(url)}
+                                        className={`flex-shrink-0 w-20 h-20 rounded-xl border-2 overflow-hidden bg-white transition-all
+                                            ${selectedImage === url ? 'border-black' : 'border-gray-100 hover:border-gray-300'}`}>
+                                        <img
+                                            src={url}
+                                            alt={`${sneaker.name} ${index + 1}`}
+                                            className="w-full h-full object-contain p-1"
+                                            onError={(e) => e.target.src = 'https://placehold.co/80?text=No'}
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Info */}

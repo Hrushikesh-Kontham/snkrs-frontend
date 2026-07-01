@@ -8,6 +8,7 @@ const EditSneaker = () => {
         name: '', brand: '', price: '', description: '',
         category: '', imageUrl: '', stock: ''
     });
+    const [imageUrls, setImageUrls] = useState(['']);
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
     const [error, setError] = useState('');
@@ -18,6 +19,9 @@ const EditSneaker = () => {
             try {
                 const res = await getSneakerById(id);
                 setForm(res.data);
+                if (res.data.images && res.data.images.length > 0) {
+                    setImageUrls(res.data.images.map(img => img.imageUrl));
+                }
             } catch (err) {
                 console.error(err);
             } finally {
@@ -31,6 +35,18 @@ const EditSneaker = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const handleImageUrlChange = (index, value) => {
+        const updated = [...imageUrls];
+        updated[index] = value;
+        setImageUrls(updated);
+    };
+
+    const addImageField = () => setImageUrls([...imageUrls, '']);
+
+    const removeImageField = (index) => {
+        setImageUrls(imageUrls.filter((_, i) => i !== index));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -39,7 +55,8 @@ const EditSneaker = () => {
             await updateSneaker(id, {
                 ...form,
                 price: parseFloat(form.price),
-                stock: parseInt(form.stock)
+                stock: parseInt(form.stock),
+                imageUrls: imageUrls.filter(url => url.trim() !== '')
             });
             navigate('/admin');
         } catch (err) {
@@ -55,7 +72,7 @@ const EditSneaker = () => {
         { name: 'price', label: 'Price (₹)', type: 'number' },
         { name: 'category', label: 'Category', type: 'text' },
         { name: 'stock', label: 'Stock', type: 'number' },
-        { name: 'imageUrl', label: 'Image URL', type: 'text' },
+        { name: 'imageUrl', label: 'Primary Image URL', type: 'text' },
     ];
 
     if (fetching) return (
@@ -90,7 +107,7 @@ const EditSneaker = () => {
                                 <input
                                     type={field.type}
                                     name={field.name}
-                                    value={form[field.name]}
+                                    value={form[field.name] || ''}
                                     onChange={handleChange}
                                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors"
                                 />
@@ -103,11 +120,43 @@ const EditSneaker = () => {
                             </label>
                             <textarea
                                 name="description"
-                                value={form.description}
+                                value={form.description || ''}
                                 onChange={handleChange}
                                 rows={4}
                                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors resize-none"
                             />
+                        </div>
+
+                        {/* Multiple Images */}
+                        <div className="md:col-span-2">
+                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest block mb-2">
+                                Additional Images
+                            </label>
+                            <div className="space-y-3">
+                                {imageUrls.map((url, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={url}
+                                            onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                            placeholder={`Image URL ${index + 1}`}
+                                            className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors"
+                                        />
+                                        {imageUrls.length > 1 && (
+                                            <button
+                                                onClick={() => removeImageField(index)}
+                                                className="px-3 py-3 text-red-400 hover:text-red-600 border border-gray-200 rounded-xl hover:border-red-300 transition-colors">
+                                                ✕
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                                <button
+                                    onClick={addImageField}
+                                    className="text-xs font-semibold text-gray-500 hover:text-black transition-colors border border-dashed border-gray-300 rounded-xl px-4 py-2.5 w-full hover:border-black">
+                                    + Add Another Image
+                                </button>
+                            </div>
                         </div>
                     </div>
 

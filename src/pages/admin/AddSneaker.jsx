@@ -7,12 +7,25 @@ const AddSneaker = () => {
         name: '', brand: '', price: '', description: '',
         category: '', imageUrl: '', stock: ''
     });
+    const [imageUrls, setImageUrls] = useState(['']);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleImageUrlChange = (index, value) => {
+        const updated = [...imageUrls];
+        updated[index] = value;
+        setImageUrls(updated);
+    };
+
+    const addImageField = () => setImageUrls([...imageUrls, '']);
+
+    const removeImageField = (index) => {
+        setImageUrls(imageUrls.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e) => {
@@ -23,7 +36,8 @@ const AddSneaker = () => {
             await addSneaker({
                 ...form,
                 price: parseFloat(form.price),
-                stock: parseInt(form.stock)
+                stock: parseInt(form.stock),
+                imageUrls: imageUrls.filter(url => url.trim() !== '')
             });
             navigate('/admin');
         } catch (err) {
@@ -39,7 +53,7 @@ const AddSneaker = () => {
         { name: 'price', label: 'Price (₹)', placeholder: '12999', type: 'number' },
         { name: 'category', label: 'Category', placeholder: 'Basketball', type: 'text' },
         { name: 'stock', label: 'Stock', placeholder: '10', type: 'number' },
-        { name: 'imageUrl', label: 'Image URL', placeholder: 'https://...', type: 'text' },
+        { name: 'imageUrl', label: 'Primary Image URL', placeholder: 'https://...', type: 'text' },
     ];
 
     return (
@@ -88,6 +102,38 @@ const AddSneaker = () => {
                                 rows={4}
                                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors resize-none"
                             />
+                        </div>
+
+                        {/* Multiple Images */}
+                        <div className="md:col-span-2">
+                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest block mb-2">
+                                Additional Images
+                            </label>
+                            <div className="space-y-3">
+                                {imageUrls.map((url, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={url}
+                                            onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                            placeholder={`Image URL ${index + 1}`}
+                                            className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors"
+                                        />
+                                        {imageUrls.length > 1 && (
+                                            <button
+                                                onClick={() => removeImageField(index)}
+                                                className="px-3 py-3 text-red-400 hover:text-red-600 border border-gray-200 rounded-xl hover:border-red-300 transition-colors">
+                                                ✕
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                                <button
+                                    onClick={addImageField}
+                                    className="text-xs font-semibold text-gray-500 hover:text-black transition-colors border border-dashed border-gray-300 rounded-xl px-4 py-2.5 w-full hover:border-black">
+                                    + Add Another Image
+                                </button>
+                            </div>
                         </div>
                     </div>
 
