@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import AdminRoute from './components/common/AdminRoute';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Pages
 import Home from './pages/Home';
@@ -27,6 +28,7 @@ import Footer from './components/common/Footer';
 const App = () => {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
+            <ScrollToTop />
             <Navbar />
             <main className="flex-1">
             <Routes>
