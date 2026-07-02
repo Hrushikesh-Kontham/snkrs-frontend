@@ -5,7 +5,7 @@ const CartItem = ({ item }) => {
     const { removeItem, fetchCart } = useCart();
 
     const handleIncrease = async () => {
-        await addToCart({ sneakerId: item.sneaker.id, quantity: 1 });
+        await addToCart({ sneakerId: item.sneaker.id, quantity: 1, size: item.size });
         fetchCart();
     };
 
@@ -13,7 +13,7 @@ const CartItem = ({ item }) => {
         if (item.quantity === 1) {
             await removeItem(item.sneaker.id);
         } else {
-            await addToCart({ sneakerId: item.sneaker.id, quantity: -1 });
+            await addToCart({ sneakerId: item.sneaker.id, quantity: -1, size: item.size });
             fetchCart();
         }
     };
@@ -38,6 +38,9 @@ const CartItem = ({ item }) => {
                 <h3 className="font-semibold text-gray-900 text-sm mt-0.5 truncate">
                     {item.sneaker.name}
                 </h3>
+                {item.size && (
+                    <p className="text-xs text-gray-400 mt-0.5">Size: UK {item.size}</p>
+                )}
                 <p className="text-sm font-bold text-gray-900 mt-1">
                     ₹{(item.sneaker.price * item.quantity).toLocaleString('en-IN')}
                 </p>

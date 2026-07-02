@@ -12,6 +12,8 @@ const ProductDetail = () => {
     const [addedToCart, setAddedToCart] = useState(false);
     const [wishlistMsg, setWishlistMsg] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [sizeError, setSizeError] = useState(false);
     const { addItem } = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -33,7 +35,12 @@ const ProductDetail = () => {
 
     const handleAddToCart = async () => {
         if (!user) return navigate('/login');
-        await addItem(sneaker.id, 1);
+        if (!selectedSize) {
+            setSizeError(true);
+            setTimeout(() => setSizeError(false), 2000);
+            return;
+        }
+        await addItem(sneaker.id, 1, selectedSize);
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
     };
@@ -61,11 +68,14 @@ const ProductDetail = () => {
         </div>
     );
 
-    // Build all images — primary + additional
     const allImages = [
         sneaker.imageUrl,
         ...(sneaker.images?.map(img => img.imageUrl) || [])
     ].filter(Boolean);
+
+    const sizes = sneaker.sizes
+        ? sneaker.sizes.split(',').map(s => s.trim()).filter(Boolean)
+        : [];
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -73,7 +83,6 @@ const ProductDetail = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Image Gallery */}
                     <div className="space-y-4">
-                        {/* Main Image */}
                         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex items-center justify-center h-96">
                             <img
                                 src={selectedImage || sneaker.imageUrl}
@@ -82,8 +91,6 @@ const ProductDetail = () => {
                                 onError={(e) => e.target.src = 'https://placehold.co/400?text=No+Image'}
                             />
                         </div>
-
-                        {/* Thumbnails */}
                         {allImages.length > 1 && (
                             <div className="flex gap-3 overflow-x-auto pb-1">
                                 {allImages.map((url, index) => (
@@ -112,15 +119,15 @@ const ProductDetail = () => {
                         <h1 className="text-3xl font-black text-gray-900 leading-tight mb-4">
                             {sneaker.name}
                         </h1>
-                        <p className="text-3xl font-bold text-black mb-6">
+                        <p className="text-3xl font-bold text-black mb-4">
                             ₹{sneaker.price.toLocaleString('en-IN')}
                         </p>
-                        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                        <p className="text-gray-500 text-sm leading-relaxed mb-6">
                             {sneaker.description}
                         </p>
 
                         {/* Stock */}
-                        <div className="mb-8">
+                        <div className="mb-6">
                             {sneaker.stock > 0 ? (
                                 <span className="text-green-600 text-xs font-semibold uppercase tracking-widest bg-green-50 px-3 py-1 rounded-full">
                                     In Stock ({sneaker.stock} left)
@@ -132,13 +139,82 @@ const ProductDetail = () => {
                             )}
                         </div>
 
+                        {/* Size Selection */}
+                        {sizes.length > 0 && (
+                            <div className="mb-6">
+                                <div className="flex items-center justify-between mb-3">
+                                    <p className={`text-xs font-semibold uppercase tracking-widest ${sizeError ? 'text-red-500' : 'text-gray-700'}`}>
+                                        {sizeError ? '⚠ Please select a size' : `Select Size (UK) ${selectedSize ? `— ${selectedSize}` : ''}`}
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-5 gap-2">
+                                    {sizes.map((size) => (
+                                        <button
+                                            key={size}
+                                            onClick={() => {
+                                                setSelectedSize(size);
+                                                setSizeError(false);
+                                            }}
+                                            className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all
+                                                ${selectedSize === size
+                                                    ? 'border-black bg-black text-white'
+                                                    : 'border-gray-200 bg-white text-gray-700 hover:border-black'}`}>
+                                            {size}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Size Chart */}
+                        {sizes.length > 0 && (
+                            <details className="mb-6 border border-gray-100 rounded-xl overflow-hidden">
+                                <summary className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-gray-500 cursor-pointer hover:bg-gray-50 transition-colors">
+                                    Size Guide
+                                </summary>
+                                <div className="p-4">
+                                    <table className="w-full text-xs text-center">
+                                        <thead>
+                                            <tr className="border-b border-gray-100">
+                                                <th className="py-2 text-gray-400 font-semibold uppercase tracking-wide">UK</th>
+                                                <th className="py-2 text-gray-400 font-semibold uppercase tracking-wide">US</th>
+                                                <th className="py-2 text-gray-400 font-semibold uppercase tracking-wide">EU</th>
+                                                <th className="py-2 text-gray-400 font-semibold uppercase tracking-wide">CM</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {[
+                                                { uk: '6', us: '7', eu: '39', cm: '24.5' },
+                                                { uk: '7', us: '8', eu: '40.5', cm: '25.5' },
+                                                { uk: '8', us: '9', eu: '42', cm: '26.5' },
+                                                { uk: '9', us: '10', eu: '43', cm: '27.5' },
+                                                { uk: '10', us: '11', eu: '44.5', cm: '28.5' },
+                                                { uk: '11', us: '12', eu: '46', cm: '29.5' },
+                                                { uk: '12', us: '13', eu: '47', cm: '30.5' },
+                                            ].map(row => (
+                                                <tr key={row.uk} className={`border-b border-gray-50 ${selectedSize === row.uk ? 'bg-gray-50 font-bold' : ''}`}>
+                                                    <td className="py-2">{row.uk}</td>
+                                                    <td className="py-2">{row.us}</td>
+                                                    <td className="py-2">{row.eu}</td>
+                                                    <td className="py-2">{row.cm}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </details>
+                        )}
+
                         {/* Actions */}
                         <div className="flex gap-3">
                             <button
                                 onClick={handleAddToCart}
                                 disabled={sneaker.stock === 0}
-                                className="flex-1 bg-black text-white py-4 rounded-2xl font-semibold tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                                {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+                                className={`flex-1 py-4 rounded-2xl font-semibold tracking-wide transition-colors disabled:opacity-40 disabled:cursor-not-allowed
+                                    ${sizeError
+                                        ? 'bg-red-500 text-white'
+                                        : 'bg-black text-white hover:bg-gray-800'}`}>
+                                {sneaker.stock === 0 ? 'Sold Out' : addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
                             </button>
                             <button
                                 onClick={handleAddToWishlist}

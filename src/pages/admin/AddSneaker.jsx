@@ -5,7 +5,7 @@ import { addSneaker } from '../../api/sneakerApi';
 const AddSneaker = () => {
     const [form, setForm] = useState({
         name: '', brand: '', price: '', description: '',
-        category: '', imageUrl: '', stock: ''
+        category: '', imageUrl: '', stock: '', sizes: ''
     });
     const [imageUrls, setImageUrls] = useState(['']);
     const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ const AddSneaker = () => {
         { name: 'name', label: 'Sneaker Name', placeholder: 'Air Jordan 1 Retro High OG', type: 'text' },
         { name: 'brand', label: 'Brand', placeholder: 'Nike', type: 'text' },
         { name: 'price', label: 'Price (₹)', placeholder: '12999', type: 'number' },
-        { name: 'category', label: 'Category', placeholder: 'Basketball', type: 'text' },
+        { name: 'category', label: 'Category', placeholder: 'Lifestyle', type: 'text' },
         { name: 'stock', label: 'Stock', placeholder: '10', type: 'number' },
         { name: 'imageUrl', label: 'Primary Image URL', placeholder: 'https://...', type: 'text' },
     ];
@@ -90,6 +90,23 @@ const AddSneaker = () => {
                             </div>
                         ))}
 
+                        {/* Sizes */}
+                        <div className="md:col-span-2">
+                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest block mb-2">
+                                Available Sizes (UK — comma separated)
+                            </label>
+                            <input
+                                type="text"
+                                name="sizes"
+                                value={form.sizes}
+                                onChange={handleChange}
+                                placeholder="6,7,8,9,10,11,12"
+                                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors"
+                            />
+                            <p className="text-xs text-gray-400 mt-1">e.g. 6,7,8,9,10,11,12</p>
+                        </div>
+
+                        {/* Description */}
                         <div className="md:col-span-2">
                             <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest block mb-2">
                                 Description

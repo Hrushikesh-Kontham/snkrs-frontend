@@ -22,8 +22,8 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const addItem = async (sneakerId, quantity = 1) => {
-        await addToCart({ sneakerId, quantity });
+    const addItem = async (sneakerId, quantity, size) => {
+        await addToCart({ sneakerId, quantity, size });
         fetchCart();
     };
 

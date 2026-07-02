@@ -9,11 +9,7 @@ const SneakerCard = ({ sneaker }) => {
 
     const handleAddToCart = async (e) => {
         e.preventDefault();
-        if (!user){
             navigate(`/sneakers/${sneaker.id}`);
-            return;
-        }
-        await addItem(sneaker.id, 1);
     };
 
     return (
