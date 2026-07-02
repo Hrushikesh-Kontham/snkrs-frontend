@@ -4,6 +4,7 @@ import { getSneakerById } from '../api/sneakerApi';
 import { addToWishlist } from '../api/wishlistApi';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -16,6 +17,7 @@ const ProductDetail = () => {
     const [sizeError, setSizeError] = useState(false);
     const { addItem } = useCart();
     const { user } = useAuth();
+    const { showToast } = useToast();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -49,9 +51,9 @@ const ProductDetail = () => {
         if (!user) return navigate('/login');
         try {
             await addToWishlist({ sneakerId: sneaker.id });
-            setWishlistMsg('Added to wishlist');
+            showToast('Added to wishlist');
         } catch {
-            setWishlistMsg('Already in wishlist');
+            showToast('Already in wishlist', 'error');
         }
         setTimeout(() => setWishlistMsg(''), 2000);
     };

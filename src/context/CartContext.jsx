@@ -1,12 +1,14 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getCart, addToCart, removeFromCart } from '../api/cartApi';
 import { useAuth } from './AuthContext';
+import { useToast } from './ToastContext';
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const { user } = useAuth();
+    const { showToast } = useToast();
 
     useEffect(() => {
         if (user) fetchCart();
@@ -25,11 +27,13 @@ export const CartProvider = ({ children }) => {
     const addItem = async (sneakerId, quantity, size) => {
         await addToCart({ sneakerId, quantity, size });
         fetchCart();
+        showToast('Added to cart');
     };
 
     const removeItem = async (sneakerId) => {
         await removeFromCart(sneakerId);
         fetchCart();
+        showToast('Removed from cart', 'info');
     };
 
     const clearCart = () => setCartItems([]);
