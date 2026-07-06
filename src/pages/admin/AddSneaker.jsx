@@ -106,6 +106,22 @@ const AddSneaker = () => {
                             <p className="text-xs text-gray-400 mt-1">e.g. 6,7,8,9,10,11,12</p>
                         </div>
 
+                        <div>
+                        <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest block mb-2">
+                            Gender
+                        </label>
+                        <select
+                            name="gender"
+                            value={form.gender || ''}
+                            onChange={handleChange}
+                            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-black transition-colors">
+                            <option value="">Select Gender</option>
+                            <option value="Unisex">Unisex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
                         {/* Description */}
                         <div className="md:col-span-2">
                             <label className="text-xs font-semibold text-gray-500 uppercase tracking-widest block mb-2">
