@@ -42,6 +42,9 @@ const Navbar = () => {
                     <Link to="/sneakers" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
                         Shop
                     </Link>
+                    <Link to="/blogs" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
+                        Blogs
+                    </Link>
                     {user && (
                         <>
                             <Link to="/wishlist" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
@@ -59,7 +62,10 @@ const Navbar = () => {
                         </Link>
                         <Link to="/admin/orders" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
                         Orders
-                    </Link>
+                        </Link>
+                        <Link to="/admin/blogs" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
+                            Blogs
+                        </Link>
                     </>
                     )}
                 </div>

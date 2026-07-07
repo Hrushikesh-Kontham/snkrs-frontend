@@ -18,6 +18,11 @@ import Wishlist from './pages/Wishlist';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import AdminOrders from './pages/admin/AdminOrders';
+import Blogs from './pages/Blogs';
+import BlogDetail from './pages/BlogDetail';
+import AdminBlogs from './pages/admin/AdminBlogs';
+import AddBlog from './pages/admin/AddBlog';
+import EditBlog from './pages/admin/EditBlog';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -38,6 +43,8 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/sneakers" element={<ProductListing />} />
                 <Route path="/sneakers/:id" element={<ProductDetail />} />
+                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/blogs/:slug" element={<BlogDetail />} />
 
                 {/* Protected - User */}
                 <Route element={<ProtectedRoute />}>
@@ -55,6 +62,9 @@ const App = () => {
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/sneakers/add" element={<AddSneaker />} />
                     <Route path="/admin/sneakers/edit/:id" element={<EditSneaker />} />
+                    <Route path="/admin/blogs" element={<AdminBlogs />} />
+                    <Route path="/admin/blogs/add" element={<AddBlog />} />
+                    <Route path="/admin/blogs/edit/:id" element={<EditBlog />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>

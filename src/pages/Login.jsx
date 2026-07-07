@@ -108,7 +108,7 @@ const Login = () => {
                                 value={form.password}
                                 onChange={handleChange}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-                                placeholder="••••••••"
+                                placeholder="enter password"
                                 className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition-colors"
                             />
                         </div>
