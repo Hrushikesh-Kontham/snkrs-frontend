@@ -9,7 +9,7 @@ const SneakerCard = ({ sneaker }) => {
 
     const handleAddToCart = async (e) => {
         e.preventDefault();
-            navigate(`/sneakers/${sneaker.id}`);
+        navigate(`/sneakers/${sneaker.id}`);
     };
 
     return (
@@ -30,8 +30,8 @@ const SneakerCard = ({ sneaker }) => {
                             </span>
                         </div>
                     )}
-                    <div className="absolute top-3 left-3">
-                        <span className="bg-black text-white text-xs px-2 py-1 rounded-full tracking-wider uppercase">
+                    <div className="absolute top-3 left-3 max-w-[70%]">
+                        <span className="bg-black text-white text-xs px-2 py-1 rounded-full tracking-wider uppercase truncate block">
                             {sneaker.brand}
                         </span>
                     </div>
@@ -45,14 +45,14 @@ const SneakerCard = ({ sneaker }) => {
                     <h3 className="font-semibold text-gray-900 text-sm leading-tight mb-3 line-clamp-2">
                         {sneaker.name}
                     </h3>
-                    <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-gray-900">
+                    <div className="flex items-center justify-between gap-2">
+                        <span className="text-lg font-bold text-gray-900 flex-shrink-0">
                             ₹{sneaker.price.toLocaleString('en-IN')}
                         </span>
                         {sneaker.stock > 0 && (
                             <button
                                 onClick={handleAddToCart}
-                                className="bg-black text-white text-xs px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors font-medium tracking-wide">
+                                className="bg-black text-white text-xs px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors font-medium tracking-wide flex-shrink-0">
                                 + Cart
                             </button>
                         )}
