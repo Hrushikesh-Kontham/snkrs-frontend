@@ -100,6 +100,15 @@ const Footer = () => {
                         <span className="text-gray-600 text-xs">Pan India Delivery</span>
                         <span className="text-gray-600 text-xs">Secure Payments</span>
                     </div>
+                    
+                </div>
+                <div className="mt-6 border-t border-gray-900 pt-4">
+                    <p className="mx-auto max-w-3xl text-center text-[11px] leading-relaxed text-gray-500">
+                        <span className="font-medium">Legal Notice:</span>{" "}
+                        All trademarks, brand names, logos, and product images displayed on this
+                        website are the property of their respective owners. Their use does not
+                        imply any affiliation with or endorsement by the respective owners.
+                    </p>
                 </div>
             </div>
         </footer>

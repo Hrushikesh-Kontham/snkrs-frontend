@@ -16,6 +16,8 @@ const SneakerCard = ({ sneaker }) => {
         ? sneaker.brand.substring(0, 12) + '...'
         : sneaker.brand;
 
+    
+
     return (
         <Link to={`/sneakers/${sneaker.id}`} className="group block h-full">
             <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -47,7 +49,7 @@ const SneakerCard = ({ sneaker }) => {
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-1 flex-col justify-between p-3">
+                <div className="flex flex-1 flex-col justify-between p-4">
                     <div>
                         <p className="mb-1 text-[11px] uppercase tracking-[0.18em] text-gray-400">
                             {sneaker.category}
@@ -58,21 +60,53 @@ const SneakerCard = ({ sneaker }) => {
                     </div>
 
                     <div className="mt-3">
-                        <p className="text-base font-bold tracking-tight text-black mb-2">
+
+                    {/* Desktop */}
+                    <div className="hidden sm:flex items-center justify-between gap-2">
+                        <p className="text-base font-bold tracking-tight text-black whitespace-nowrap">
                             ₹{sneaker.price.toLocaleString("en-IN")}
                         </p>
+
                         {sneaker.stock > 0 ? (
                             <button
                                 onClick={handleAddToCart}
-                                className="w-full rounded-xl bg-black py-2 text-xs font-medium text-white transition hover:bg-gray-800">
+                                className="flex-shrink-0 rounded-xl bg-black px-3 py-2 text-xs font-medium text-white transition hover:bg-gray-800"
+                            >
                                 + Cart
                             </button>
                         ) : (
-                            <button disabled
-                                className="w-full rounded-xl bg-gray-200 py-2 text-xs font-medium text-gray-500">
+                            <button
+                                disabled
+                                className="flex-shrink-0 rounded-xl bg-gray-200 px-3 py-2 text-xs font-medium text-gray-500"
+                            >
                                 Sold Out
                             </button>
                         )}
+                    </div>
+
+                    {/* Mobile */}
+                    <div className="sm:hidden">
+                        <p className="mb-2 text-base font-bold tracking-tight text-black">
+                            ₹{sneaker.price.toLocaleString("en-IN")}
+                        </p>
+
+                        {sneaker.stock > 0 ? (
+                            <button
+                                onClick={handleAddToCart}
+                                className="w-full rounded-xl bg-black py-2 text-xs font-medium text-white transition hover:bg-gray-800"
+                            >
+                                + Cart
+                            </button>
+                        ) : (
+                            <button
+                                disabled
+                                className="w-full rounded-xl bg-gray-200 py-2 text-xs font-medium text-gray-500"
+                            >
+                                Sold Out
+                            </button>
+                        )}
+                    </div>
+
                     </div>
                 </div>
             </div>
