@@ -57,20 +57,19 @@ const SneakerCard = ({ sneaker }) => {
                         </h3>
                     </div>
 
-                    <div className="mt-3 flex items-center justify-between gap-2">
-                        <p className="text-base font-bold tracking-tight text-black truncate flex-1">
+                    <div className="mt-3">
+                        <p className="text-base font-bold tracking-tight text-black mb-2">
                             ₹{sneaker.price.toLocaleString("en-IN")}
                         </p>
-
                         {sneaker.stock > 0 ? (
                             <button
                                 onClick={handleAddToCart}
-                                className="flex-shrink-0 rounded-xl bg-black px-3 py-2 text-xs font-medium text-white transition hover:bg-gray-800">
+                                className="w-full rounded-xl bg-black py-2 text-xs font-medium text-white transition hover:bg-gray-800">
                                 + Cart
                             </button>
                         ) : (
                             <button disabled
-                                className="flex-shrink-0 rounded-xl bg-gray-200 px-3 py-2 text-xs font-medium text-gray-500">
+                                className="w-full rounded-xl bg-gray-200 py-2 text-xs font-medium text-gray-500">
                                 Sold Out
                             </button>
                         )}
