@@ -12,29 +12,27 @@ const SneakerCard = ({ sneaker }) => {
         navigate(`/sneakers/${sneaker.id}`);
     };
 
+    const shortBrand = sneaker.brand.length > 12
+        ? sneaker.brand.substring(0, 12) + '...'
+        : sneaker.brand;
+
     return (
-        <Link
-            to={`/sneakers/${sneaker.id}`}
-            className="group block h-full"
-        >
+        <Link to={`/sneakers/${sneaker.id}`} className="group block h-full">
             <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
                 {/* Image */}
                 <div className="relative aspect-square bg-gray-50 overflow-hidden">
-
                     <img
                         src={sneaker.imageUrl}
                         alt={sneaker.name}
                         className="w-full h-full object-contain p-5 transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                            e.target.src = "https://placehold.co/600";
-                        }}
+                        onError={(e) => { e.target.src = "https://placehold.co/600"; }}
                     />
 
                     {/* Brand */}
-                    <div className="absolute top-3 left-3">
-                        <span className="rounded-full bg-black px-3 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-white">
-                            {sneaker.brand}
+                    <div className="absolute top-3 left-3 max-w-[70%]">
+                        <span className="block rounded-full bg-black px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white truncate">
+                            {shortBrand}
                         </span>
                     </div>
 
@@ -46,50 +44,38 @@ const SneakerCard = ({ sneaker }) => {
                             </span>
                         </div>
                     )}
-
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-1 flex-col justify-between p-4">
-
+                <div className="flex flex-1 flex-col justify-between p-3">
                     <div>
-
-                        <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-gray-400">
+                        <p className="mb-1 text-[11px] uppercase tracking-[0.18em] text-gray-400">
                             {sneaker.category}
                         </p>
-
-                        <h3 className="line-clamp-2 min-h-[52px] text-base font-semibold leading-6 text-gray-900">
+                        <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-gray-900">
                             {sneaker.name}
                         </h3>
-
                     </div>
 
-                    <div className="mt-5 flex items-center justify-between gap-3">
-
-                        <p className="text-xl sm:text-2xl font-bold tracking-tight text-black whitespace-nowrap">
+                    <div className="mt-3 flex items-center justify-between gap-2">
+                        <p className="text-base font-bold tracking-tight text-black truncate flex-1">
                             ₹{sneaker.price.toLocaleString("en-IN")}
                         </p>
 
                         {sneaker.stock > 0 ? (
                             <button
                                 onClick={handleAddToCart}
-                                className="rounded-xl bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 whitespace-nowrap"
-                            >
+                                className="flex-shrink-0 rounded-xl bg-black px-3 py-2 text-xs font-medium text-white transition hover:bg-gray-800">
                                 + Cart
                             </button>
                         ) : (
-                            <button
-                                disabled
-                                className="rounded-xl bg-gray-200 px-4 py-2.5 text-sm font-medium text-gray-500 whitespace-nowrap"
-                            >
+                            <button disabled
+                                className="flex-shrink-0 rounded-xl bg-gray-200 px-3 py-2 text-xs font-medium text-gray-500">
                                 Sold Out
                             </button>
                         )}
-
                     </div>
-
                 </div>
-
             </div>
         </Link>
     );
