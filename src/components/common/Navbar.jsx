@@ -56,17 +56,9 @@ const Navbar = () => {
                         </>
                     )}
                     {user?.role === 'ADMIN' && (
-                        <>
-                            <Link to="/admin" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
-                                Dashboard
-                            </Link>
-                            <Link to="/admin/orders" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
-                                Manage Orders
-                            </Link>
-                            <Link to="/admin/blogs" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
-                                Manage Blogs
-                            </Link>
-                        </>
+                        <Link to="/admin" className="text-sm text-gray-300 hover:text-white transition-colors tracking-wide">
+                            Admin
+                        </Link>
                     )}
                 </div>
 
